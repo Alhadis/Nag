@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1, minimum-scale=1" />
+<title>Nag Demo</title>
+
+<style type="text/css">
+/** Reset */
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none!important}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:0}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 2.5em}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
+
+*{
+	tab-size: 4;
+	-webkit-box-sizing:	border;
+	-webkit-box-sizing:	border-box;
+	-moz-box-sizing:	border;
+	-moz-box-sizing:	border-box;
+	box-sizing:			border-box;
+}
+	:focus{outline: none}
+
+
+/** Demo styling */
+.nag{
+	
+	/** Cosmetics */
+	background: #000;
+	color: #fff;
+	padding: 1em;
+
+
+	/** Rudimentary styling */
+	position: fixed;
+	bottom:	0;
+	right:	0;
+
+	-webkit-transition:	.3s ease all;
+	-moz-transition:	.3s ease all;
+	-o-transition:		.3s ease all;
+	transition:			.3s ease all;
+
+	-webkit-backface-visibility:	hidden;
+	-moz-backface-visibility:		hidden;
+	backface-visibility:			hidden;
+
+	-webkit-transform:	translateX(100%);
+	-moz-transform:		translateX(100%);
+	-ms-transform:		translateX(100%);
+	-o-transform:		translateX(100%);
+	transform:			translateX(100%);
+}
+	.show.nag{
+		-webkit-transform:	translateX(0);
+		-moz-transform:		translateX(0);
+		-ms-transform:		translateX(0);
+		-o-transform:		translateX(0);
+		transform:			translateX(0);
+	}
+
+	.nag input{
+		display: block;
+		width: 100%;
+		border: 0;
+		margin: .5em 0;
+		padding: .25em;
+		color: #000;
+	}
+
+
+#close-btn{
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: pointer;
+	-webkit-transition:	.15s ease all;
+	-moz-transition:	.15s ease all;
+	-o-transition:		.15s ease all;
+	transition:			.15s ease all;
+}
+	#close-btn,
+	#close-btn::before{
+		display: inline-block;
+		vertical-align: baseline;
+	}
+
+	#close-btn:hover{
+		color: #f00;
+	}
+	#close-btn::before{
+		content: "×";
+		font-size: 1.5em;
+		padding-right: .15em;
+	}
+</style>
+</head>
+
+
+<body>
+
+	<div class="nag" id="nag-1">
+		<h2>Please subscribe to our annoying shit.</h2>
+
+		<form>
+			<input type="text" id="first-name" name="first-name" placeholder="First name" />
+			<input type="text" id="last-name" name="last-name" placeholder="Last name" />
+			<input type="tel" id="phone-number" name="phone-number" placeholder="Phone number" />
+			<input type="email" id="email-address" name="email-address" placeholder="E-mail Address" />
+			<input type="submit" value="Subscribe" />
+		</form>
+
+
+		<div id="close-btn">Piss off</div>
+	</div>
+
+	<script type="text/javascript" src="js/nag.js"></script>
+	<script type="text/javascript">
+		
+		/** Demo usage */
+		var	nag	=	document.getElementById("nag-1"),
+			nag	=	new Nag(nag, {
+				verbose: 1
+			}).kickOn({
+				"form":			"submit",
+				"#close-btn":	"click"
+			});
+	</script>
+
+	<div id="filler">
+		<p>Sint occaecat incididunt occaecat elit sunt deserunt aute esse enim excepteur amet duis. Irure exercitation eu minim deserunt mollit aliquip laboris qui nostrud. Velit enim excepteur tempor ea do minim ut dolor velit non excepteur proident do ea. Officia laboris exercitation labore tempor mollit non ut.</p>
+		<p>Ex reprehenderit et nulla cupidatat laborum exercitation laboris et enim ex cillum qui. Nostrud cupidatat Lorem aliquip nostrud eu mollit. Tempor exercitation nulla nulla non enim commodo sint. Id velit magna est tempor labore. Sit irure cillum officia incididunt sunt do enim ad veniam.</p>
+		<p>Fugiat cupidatat nostrud cillum dolore adipisicing incididunt quis excepteur ut. Mollit eiusmod voluptate labore laboris veniam sint do id ea anim nisi elit. Culpa cillum cupidatat minim cupidatat anim commodo commodo pariatur amet in velit. Proident do ut Lorem minim excepteur nulla esse. Voluptate sit dolor occaecat cupidatat deserunt qui ea.</p>
+		<p>Est exercitation culpa irure sit commodo dolor nostrud fugiat. Deserunt eiusmod sit dolor aliqua mollit et. Ipsum veniam labore Lorem dolore reprehenderit et sint est sunt. Proident mollit non est reprehenderit velit aliquip id fugiat ut dolor mollit consectetur incididunt. In cupidatat reprehenderit ea ipsum magna culpa adipisicing ipsum officia ad cupidatat est. Commodo sit cupidatat dolor nulla ut ea Lorem.</p>
+		<p>Deserunt sunt laborum deserunt id laboris irure commodo ex excepteur dolor elit aliqua consequat. Adipisicing sint duis nostrud eu culpa magna laboris esse qui tempor enim in. Exercitation laborum cupidatat anim sunt esse labore et laborum cupidatat. Aute aliquip reprehenderit esse sint. Velit consectetur occaecat aute consectetur deserunt enim.</p>
+		<p>Velit aliqua adipisicing reprehenderit ipsum irure nisi. Culpa in labore non ea ea cillum nostrud est eu tempor tempor. Adipisicing eu dolor incididunt ipsum sint duis nostrud consectetur non voluptate aliqua esse ipsum fugiat. Aliquip labore dolore aliqua pariatur.</p>
+		<p>Nulla eiusmod dolor sint proident. Culpa occaecat sint labore dolore cupidatat esse Lorem Lorem enim ea sint do. Adipisicing enim eiusmod ut enim reprehenderit nostrud ad eiusmod voluptate. Laboris nisi eu do non pariatur id ut voluptate eiusmod dolor non.</p>
+		<p>Proident irure sunt Lorem ullamco consequat officia aliquip laboris cillum esse amet culpa irure dolor. Veniam exercitation ea proident amet quis laborum adipisicing pariatur. Tempor exercitation mollit eiusmod ea dolore dolor sit laboris proident dolore veniam do magna. Eiusmod consequat minim eiusmod dolore cupidatat officia aliqua do ex voluptate ea. Nulla cupidatat tempor ullamco laboris reprehenderit magna amet incididunt excepteur proident magna consectetur. Amet occaecat laboris et quis adipisicing aute. Esse nulla non nulla proident ipsum.</p>
+		<p>Aute velit anim deserunt labore dolore elit. Id nostrud veniam sunt officia est sit aliquip pariatur magna ullamco nulla. Eu reprehenderit deserunt sint tempor mollit Lorem esse. Eiusmod ad eiusmod irure non laborum labore ipsum magna ad reprehenderit ut pariatur qui. Ad ullamco reprehenderit deserunt sint occaecat dolor culpa. Cillum est sit voluptate adipisicing adipisicing dolore commodo consequat est reprehenderit.</p>
+		<p>Minim mollit eu laborum aliqua occaecat sint consequat consectetur velit cupidatat. Duis ex reprehenderit minim elit do proident eu consequat veniam. Labore elit mollit cupidatat sit veniam irure. Enim exercitation tempor fugiat est mollit. Eiusmod in aliqua aliquip eiusmod occaecat nisi mollit ullamco incididunt elit. Nulla esse ad ad esse aliqua eu. Et proident cupidatat enim officia excepteur ad consequat exercitation do.</p>
+	</div>
+</body>
+</html>
