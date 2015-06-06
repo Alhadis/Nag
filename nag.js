@@ -36,12 +36,12 @@
 		 * @param {HTMLElement} el               - Container element for the content to reveal.
 		 * @param {Object}      opts             - Hash of options to fine-tune Nag's behaviour.
 		 * @param {String}      opts.cookieName  - Name of cookie that controls if the user's closed this nag before.
+		 * @param {String}      opts.eventName   - Name of DOM event that triggers the nag. Defaults to "scroll".
 		 * @param {EventTarget} opts.eventTarget - DOM object listening for the nag-triggering event. Defaults to the window object.
 		 * @param {Function}    opts.onHide      - Callback run when Nag's dismissed. Defaults to a no-op.
 		 * @param {Function}    opts.onShow      - Callback run when Nag's displayed. Defaults to a no-op.
 		 * @param {Number}      opts.showAfter   - Milliseconds to wait before nagging user automatically. Empty values disable this behaviour.
 		 * @param {String}      opts.showClass   - CSS class that displays the target element.
-		 * @param {String}      opts.showOn      - Name of DOM event that triggers the nag. Defaults to "scroll".
 		 * @param {Boolean}     opts.verbose     - (Unminified code only) Logs debugging messages to console.
 		 * @constructor
 		 */
@@ -61,7 +61,7 @@
 
 
 				/** DOM event name that triggers the nag */
-				eventName		=	opts.showOn || "scroll",
+				eventName		=	opts.eventName || "scroll",
 
 
 				/** Target of aforementioned DOM event that receives the event. */
