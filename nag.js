@@ -191,10 +191,10 @@
 			 * Assigns a number of event listeners to the target element's contents, which dismiss the Nag from showing again when invoked.
 			 *
 			 * @param {Object} args - Object whose keys represent DOM selectors, and whose values represent event types to listen for.
-			 * @example .resetOn( {"#close-btn": "click"} )
+			 * @example .kickWhen( {"#close-btn": "click"} )
 			 * @return {Nag}
 			 */
-			THIS.kickOn	=	function(args){
+			THIS.kickWhen	=	function(args){
 				var i, e;
 				for(i in args){
 					e	=	args[i];
