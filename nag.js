@@ -90,7 +90,7 @@
 
 				/** Callback queued to reveal the Nag after a delay, or on an interaction event. */
 				triggerShow	=	function(){
-					console.info("Triggered.");
+					/*~*/if(opts.verbose) console.info("Triggered.");/*~*/
 
 					/** Clear any listeners or queued callbacks. */
 					clearTimeout(timeoutID);
