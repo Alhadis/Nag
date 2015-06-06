@@ -74,7 +74,8 @@
 
 
 				/** Milliseconds to wait before automatically showing the nag to the user. If empty, no automatic nagging is executed. */
-				showAfter		=	Math.max(0, opts.showAfter) || 4000,
+				showAfter		=	opts.showAfter,
+				showAfter		=	UNDEF === showAfter ? 4000 : Math.max(0, showAfter),
 
 
 				/** CSS class that displays the target element. */
