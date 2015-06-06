@@ -33,39 +33,21 @@
 		 *
 		 * Suitable for subscription popups, greetings, notifications of new features, etc.
 		 *
-		 * @param {HTMLElement} el - Container element for the content to reveal.
-		 * @param {Object} opts - Hash of options to fine-tune Nag's behaviour.
-		 * @param {String} opts.cookieName - Name of cookie that controls if the user's closed this nag before.
-		 * @param {String} opts.showClass - CSS class that displays the target element.
-		 * @param {Number} opts.showAfter - Milliseconds to wait before nagging user automatically. Empty values disable this behaviour.
-		 * @param {String} opts.showOn - Name of window event that triggers the nag. Defaults to "scroll".
+		 * @param {HTMLElement} el               - Container element for the content to reveal.
+		 * @param {Object}      opts             - Hash of options to fine-tune Nag's behaviour.
+		 * @param {String}      opts.cookieName  - Name of cookie that controls if the user's closed this nag before.
+		 * @param {EventTarget} opts.eventTarget - DOM object listening for the nag-triggering event. Defaults to the window object.
+		 * @param {Function}    opts.onHide      - Callback run when Nag's dismissed. Defaults to a no-op.
+		 * @param {Function}    opts.onShow      - Callback run when Nag's displayed. Defaults to a no-op.
+		 * @param {Number}      opts.showAfter   - Milliseconds to wait before nagging user automatically. Empty values disable this behaviour.
+		 * @param {String}      opts.showClass   - CSS class that displays the target element.
+		 * @param {String}      opts.showOn      - Name of DOM event that triggers the nag. Defaults to "scroll".
+		 * @param {Boolean}     opts.verbose     - (Unminified code only) Logs debugging messages to console.
 		 * @constructor
 		 */
 		Nag	=	function(el, opts){
 
 			var	THIS			=	this,
-
-				/** CSS class that displays the target element. */
-				showClass		=	opts.showClass	|| "show",
-
-
-				/** Milliseconds to wait before automatically showing the nag to the user. If empty, no automatic nagging is executed. */
-				showAfter		=	Math.max(0, opts.showAfter) || 4000,
-
-
-				/** DOM event name that triggers the nag */
-				eventName		=	opts.showOn || "scroll",
-
-
-				/** Target of aforementioned DOM event that receives the event. */
-				eventTarget		=	opts.eventTarget || WIN,
-
-
-
-				/** Callbacks triggered when hiding/showing element */
-				onShow			=	opts.onShow || NOOP,
-				onHide			=	opts.onHide || NOOP,
-
 
 
 				/**
@@ -76,6 +58,29 @@
 				 * cookie name for predictable behaviour.
 				 */
 				cookieName		=	opts.cookieName || (el.id ? ("shown-" + el.id) : "") || "nag-dismissed",
+
+
+				/** DOM event name that triggers the nag */
+				eventName		=	opts.showOn || "scroll",
+
+
+				/** Target of aforementioned DOM event that receives the event. */
+				eventTarget		=	opts.eventTarget || WIN,
+
+
+				/** Callbacks triggered when hiding/showing element */
+				onHide			=	opts.onHide || NOOP,
+				onShow			=	opts.onShow || NOOP,
+
+
+				/** Milliseconds to wait before automatically showing the nag to the user. If empty, no automatic nagging is executed. */
+				showAfter		=	Math.max(0, opts.showAfter) || 4000,
+
+
+				/** CSS class that displays the target element. */
+				showClass		=	opts.showClass	|| "show",
+
+
 
 
 
