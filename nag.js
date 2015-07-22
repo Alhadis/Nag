@@ -7,6 +7,7 @@
 		DOC		=	document,
 		TRUE	=	true,
 		FALSE	=	false,
+		NULL	=	null,
 		NOOP	=	function(){},
 		UNDEF,
 
@@ -21,7 +22,7 @@
 		
 
 		/** Get or set the value of a cookie with the designated name. */
-		cookie	=	function (e,n,o){if(!e){var t=document.cookie.split(/;\s*/g),i={},r,s,u;for(s=0,u=t.length;s<u;++s)if(r=t[s].indexOf("="))i[t[s].substr(0,r)]=decodeURIComponent(t[s].substr(r+1));return i}if(undefined===n){t=document.cookie.split(/;\s*/g),r=e.length+1;for(var s=0,u=t.length;s<u;++s)if(e+"="===t[s].substr(0,r))return decodeURIComponent(t[s].substr(r));return null}else{o=o||{};if(null===n){n="";o.expires=-1}if(o.expires){var d=o.expires,d=(!d.toUTCString?new Date(Date.now()+864e5*d):d).toUTCString()}document.cookie=e+"="+encodeURIComponent(n)+(d?"; expires="+d:"")+(o.path?"; path="+o.path:"")+(o.domain?"; domain="+o.domain:"")+(o.secure?"; secure":"")}},
+		cookie	=	function (e,n,o){if(!e){var t=DOC.cookie.split(/;\s*/g),i={},r,s,u;for(s=0,u=t.length;s<u;++s)if(r=t[s].indexOf("="))i[t[s].substr(0,r)]=decodeURIComponent(t[s].substr(r+1));return i}if(undefined===n){t=DOC.cookie.split(/;\s*/g),r=e.length+1;for(var s=0,u=t.length;s<u;++s)if(e+"="===t[s].substr(0,r))return decodeURIComponent(t[s].substr(r));return NULL}else{o=o||{};if(NULL===n){n="";o.expires=-1}if(o.expires){var d=o.expires,d=(!d.toUTCString?new Date(Date.now()+864e5*d):d).toUTCString()}DOC.cookie=e+"="+encodeURIComponent(n)+(d?"; expires="+d:"")+(o.path?"; path="+o.path:"")+(o.domain?"; domain="+o.domain:"")+(o.secure?"; secure":"")}},
 		/*>*/
 
 
@@ -33,16 +34,20 @@
 		 *
 		 * Suitable for subscription popups, greetings, notifications of new features, etc.
 		 *
-		 * @param {HTMLElement} el               - Container element for the content to reveal.
-		 * @param {Object}      opts             - Hash of options to fine-tune Nag's behaviour.
-		 * @param {String}      opts.cookieName  - Name of cookie that controls if the user's closed this nag before.
-		 * @param {String}      opts.eventName   - Name of DOM event that triggers the nag. Defaults to "scroll".
-		 * @param {EventTarget} opts.eventTarget - DOM object listening for the nag-triggering event. Defaults to the window object.
-		 * @param {Function}    opts.onHide      - Callback run when Nag's dismissed. Defaults to a no-op.
-		 * @param {Function}    opts.onShow      - Callback run when Nag's displayed. Defaults to a no-op.
-		 * @param {Number}      opts.showAfter   - Milliseconds to wait before nagging user automatically. Empty values disable this behaviour.
-		 * @param {String}      opts.showClass   - CSS class that displays the target element.
-		 * @param {Boolean}     opts.verbose     - (Unminified code only) Logs debugging messages to console.
+		 * @param {HTMLElement} el                 - Container element for the content to reveal.
+		 * @param {Object}      opts               - Hash of options to fine-tune Nag's behaviour.
+		 * @param {String}      opts.cookieDomain  - Cookie's domain.
+		 * @param {Date|Number} opts.cookieExpires - Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 7.
+		 * @param {String}      opts.cookieName    - Name of cookie that controls if the user's closed this nag before.
+		 * @param {String}      opts.cookiePath    - Cookie's path. Defaults to site's root: "/"
+		 * @param {Boolean}     opts.cookieSecure  - Whether to restrict the cookie to HTTPS.
+		 * @param {String}      opts.eventName     - Name of DOM event that triggers the nag. Defaults to "scroll".
+		 * @param {EventTarget} opts.eventTarget   - DOM object listening for the nag-triggering event. Defaults to the window object.
+		 * @param {Function}    opts.onHide        - Callback run when Nag's dismissed. Defaults to a no-op.
+		 * @param {Function}    opts.onShow        - Callback run when Nag's displayed. Defaults to a no-op.
+		 * @param {Number}      opts.showAfter     - Milliseconds to wait before nagging user automatically. Empty values disable this behaviour.
+		 * @param {String}      opts.showClass     - CSS class that displays the target element.
+		 * @param {Boolean}     opts.verbose       - (Unminified code only) Logs debugging messages to console.
 		 * @constructor
 		 */
 		Nag	=	function(el, opts){
@@ -59,6 +64,15 @@
 				 */
 				cookieName		=	opts.cookieName || (el.id ? ("shown-" + el.id) : "") || "nag-dismissed",
 
+				
+				/** Config hash to pass to the cookie function, built from "cookie*" properties of opts */
+				cookieParams	=	{
+					domain:		opts.cookieDomain,
+					expires:	opts.cookieExpires	|| 7,
+					path:		opts.cookiePath		|| "/",
+					secure:		opts.cookieSecure
+				},
+				
 
 				/** DOM event name that triggers the nag */
 				eventName		=	opts.eventName || "scroll",
@@ -170,7 +184,7 @@
 			 * @return {Nag}
 			 */
 			THIS.kick	=	function(){
-				cookie(cookieName, 1);
+				cookie(cookieName, 1, cookieParams);
 				THIS.show	=	FALSE;
 				silenced	=	TRUE;
 				return THIS;
@@ -183,7 +197,7 @@
 			 * @return {Nag}
 			 */
 			THIS.reset	=	function(){
-				cookie(cookieName, 0);
+				cookie(cookieName, NULL);
 				return THIS;
 			};
 

@@ -5,14 +5,18 @@ Display automatic callouts to a user, unless they've been previously dismissed. 
 
 1. [Usage](#usage)
 2. [Option Reference](#option-reference)
-	1. [cookieName](#cookiename)
-	2. [eventName](#eventname)
-	3. [eventTarget](#eventtarget)
-	4. [onHide](#onhide)
-	5. [onShow](#onshow)
-	6. [showAfter](#showafter)
-	7. [showClass](#showclass)
-	8. [verbose](#verbose)
+	1. [cookieDomain] (#cookiedomain)
+	2. [cookieExpires] (#cookieexpires)
+	3. [cookieName] (#cookiename)
+	4. [cookiePath] (#cookiepath)
+	5. [cookieSecure] (#cookiesecure)
+	6. [eventName] (#eventname)
+	7. [eventTarget] (#eventtarget)
+	8. [onHide] (#onhide)
+	9. [onShow] (#onshow)
+	10. [showAfter] (#showafter)
+	11. [showClass] (#showclass)
+	12. [verbose] (#verbose)
 
 
 ## Usage
@@ -27,19 +31,35 @@ Second argument is an optional hash of properties to fine-tune the Nag's behavio
 ```js
 /** Possible options and their default values are depicted below: */
 var nag	=	new Nag(element, {
+	cookieDomain:	undefined,
+	cookieExpires:	7,
 	cookieName:		element.id ? "shown-"+element.id : "nag-dismissed",
+	cookiePath:		"/",
+	cookieSecure:	undefined,
 	eventName:		"scroll",
 	eventTarget:	window,
 	onHide:			function(){},
 	onShow:			function(){},
 	showAfter:		4000,
 	showClass:		"show",
-	verbose:		false
+	verbose:		undefined
 });
 ```
 
 
 ## Option Reference
+
+### cookieDomain
+**Type:** String<br/>
+**Default:** `undefined`
+
+Cookie's "domain" attribute. Defaults to the current host, as per [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.2.3).
+
+### cookieExpires
+**Type:** Date | Number<br/>
+**Default:** `7`
+
+Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 7.
 
 ### cookieName
 **Type:** String<br/>
@@ -50,6 +70,18 @@ Name of the cookie that indicates if the user's closed this nag before.
 If omitted, the element's ID will be used, prepended with `"shown‑"`. If the element lacks an ID attribute, a last resort value of `"nag‑dismissed"` will be used instead.
 
 Note that Nag instances should *always* be supplied a unique, explicit cookie name for predictable behaviour.
+
+### cookiePath
+**Type:** String<br/>
+**Default:** `"/"` (Site root)
+
+Cookie's "path" attribute, as per [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.2.4).
+
+### cookieSecure
+**Type:** Boolean<br/>
+**Default:** `undefined`
+
+Cookie's "secure" attribute, as per [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.2.5).
 
 ### eventName
 **Type:** String<br/>
