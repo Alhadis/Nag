@@ -205,21 +205,27 @@
 			/**
 			 * Assigns a number of event listeners to the target element's contents, which dismiss the Nag from showing again when invoked.
 			 *
-			 * @param {Object} args - Object whose keys represent DOM selectors, and whose values represent event types to listen for.
-			 * @example .kickWhen( {"#close-btn": "click"} )
+			 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
+			 * @example .kickWhen( {"click": "#close-btn"} )
 			 * @return {Nag}
 			 */
 			THIS.kickWhen	=	function(args){
-				var i, e;
-				for(i in args){
-					e	=	args[i];
-					forEach.call(el[QUERY_ALL](i), function(i){
-						i[ ADD_LISTENER ](e, function(){
-							
-							/*~*/if(opts.verbose) console.info("Kicking...");/*~*/
-							THIS.kick();
-						});
-					});
+				var type, elements;
+				for(type in args){
+
+					/** Stringify value in case an array was passed: this implicitly joins multiple selectors with commas */
+					elements	= args[type] + "";
+
+					forEach.call(
+						el[QUERY_ALL](elements),
+						function(o){
+							o[ ADD_LISTENER ](type, function(){
+
+								/*~*/if(opts.verbose) console.info("Kicking...");/*~*/
+								THIS.kick();
+							})
+						}
+					);
 				}
 				return THIS;
 			};
