@@ -116,12 +116,40 @@
 				},
 
 
+				
+				/**
+				 * Event handler assigned to an element that signals when a Nag's been kicked by a user.
+				 *
+				 * Because reinitialising a Nag object will reapply any event listeners set with kickWhen,
+				 * we need to make sure the handlers aren't added twice (which could potentially cause unwanted
+				 * behaviour). Since addEventListener discards duplicate handlers, using named functions instead
+				 * of anonymous functions spares us the trouble of having to remove event listeners from affected
+				 * elements.
+				 */
+				onHardKick	=	function(){
+					/*~*/if(opts.verbose) console.info("Kicking...");/*~*/
+					THIS.kick();
+				},
+
 
 				/**
-				 * Internal function that assigns event listeners to disable the Nag in response to user activity.
+				 * Event handler assigned to an element that's used to mark a Nag as dismissed in response to a certain event.
+				 *
+				 * Refer to the long-winded spiel above.
+				 */
+				onSoftKick	=	function(){
+					/*~*/if(opts.verbose) console.info("Softly Kicking...");/*~*/
+					THIS.kick(TRUE);
+				},
+
+
+
+				/**
+				 * Assigns event listeners to disable the Nag in response to user activity.
 				 *
 				 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
 				 * @param {Boolean} softly - Whether to kick the Nag "softly" (disable it in future, but not hide it straight away).
+				 * @example nag.setKick({"click": "#close-btn"})
 				 * @return {Nag}
 				 */
 				setKick	=	function(args, softly){
@@ -134,11 +162,7 @@
 						forEach.call(
 							el[QUERY_ALL](elements),
 							function(o){
-								o[ ADD_LISTENER ](type, function(){
-
-									/*~*/if(opts.verbose) console.info((softly? "Softly " : "") + "Kicking...");/*~*/
-									THIS.kick(softly);
-								})
+								o[ ADD_LISTENER ](type, softly ? onSoftKick : onHardKick)
 							}
 						);
 					}
@@ -176,12 +200,17 @@
 							else						console.error("No event or timer delay specified! Wrong arguments?");
 						}
 						/*~*/
+
+
+						/** If kick handlers were specified in the original options object, register them now. */
+						setKick(opts.kickWhen);
+						setKick(opts.softlyKickWhen, TRUE);
 					}
 				},
 
 
 				/** Internal */
-				show		=	FALSE,
+				show = FALSE,
 				silenced;
 
 
@@ -202,7 +231,7 @@
 						i	=	!!i;
 						if(i !== show){
 							show	=	i;
-							el.classList[show ? "add" : "remove" ](showClass);
+							el.classList[ show ? "add" : "remove" ](showClass);
 							(show ? onShow(THIS) : onHide(THIS));
 						}
 					}
@@ -215,7 +244,7 @@
 			/**
 			 * Dismisses a Nag whilst setting a cookie not to show it again.
 			 *
-			 * Typically called from a "close button", but may also be called from a form's submission handler.
+			 * Typically called from a close button, but may also be called from a form's submission handler.
 			 *
 			 * @param {Boolean} soft - If set, will prevent the Nag from showing again, but won't hide it immediately.
 			 * @return {Nag}
@@ -241,33 +270,9 @@
 			};
 
 
-
-			/**
-			 * Assigns a number of event listeners to the target element's contents, which dismiss the Nag from showing again when invoked.
-			 *
-			 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
-			 * @example .kickWhen( {"click": "#close-btn"} )
-			 * @return {Nag}
-			 */
-			THIS.kickWhen	=	function(args){
-				return setKick(args);
-			};
-
-
-
-			/**
-			 * Assigns event listeners to disable the Nag without hiding it immediately.
-			 *
-			 * This method might be used after a successful form submission, such as showing a thanks
-			 * message to a user after they've finished subscribing to a newsletter.
-			 *
-			 * @param {Object} args - Hashed element selectors, keyed to event type. See {@link kickWhen}.
-			 * @example .softlyKickWhen( {"form": "submit"} )
-			 * @return {Nag}
-			 */
-			THIS.softlyKickWhen = function(args){
-				return setKick(args, TRUE);
-			};
+			/** Expose setKick as a public method. */
+			THIS.setKick	=
+			THIS.kickWhen	=	setKick;
 
 
 			/** Start naggin'. */
