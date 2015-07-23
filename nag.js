@@ -204,7 +204,7 @@
 
 						/** If kick handlers were specified in the original options object, register them now. */
 						setKick(opts.kickWhen);
-						setKick(opts.softlyKickWhen, TRUE);
+						setKick(opts.kickSoftlyWhen, TRUE);
 					}
 				},
 

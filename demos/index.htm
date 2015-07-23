@@ -119,7 +119,7 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 			nag	=	new Nag(nag, {
 				verbose:		1,
 				kickWhen:		{click: "#close-btn"},
-				softlyKickWhen: {submit: "form"}
+				kickSoftlyWhen: {submit: "form"}
 			});
 			
 		document.forms[0].addEventListener("submit", function(e){
