@@ -12,8 +12,9 @@
 		UNDEF,
 
 		/** Lengthy method/property names */
-		ADD_LISTENER		=	"addEventListener",
-		REMOVE_LISTENER		=	"removeEventListener",
+		LISTENER			=	"EventListener",
+		ADD_LISTENER		=	"add"+LISTENER,
+		REMOVE_LISTENER		=	"remove"+LISTENER,
 		QUERY				=	"querySelector",
 		QUERY_ALL			=	QUERY + "All",
 
@@ -181,11 +182,13 @@
 			 * Dismisses a Nag whilst setting a cookie not to show it again.
 			 *
 			 * Typically called from a "close button", but may also be called from a form's submission handler.
+			 *
+			 * @param {Boolean} soft - If set, will prevent the Nag from showing again, but won't hide it immediately.
 			 * @return {Nag}
 			 */
-			THIS.kick	=	function(){
+			THIS.kick	=	function(soft){
 				cookie(cookieName, 1, cookieParams);
-				THIS.show	=	FALSE;
+				THIS.show	=	soft;
 				silenced	=	TRUE;
 				return THIS;
 			};
@@ -202,14 +205,15 @@
 			};
 
 
+
 			/**
-			 * Assigns a number of event listeners to the target element's contents, which dismiss the Nag from showing again when invoked.
+			 * Internal function that assigns event listeners to disable the Nag in response to user activity.
 			 *
 			 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
-			 * @example .kickWhen( {"click": "#close-btn"} )
+			 * @param {Boolean} softly - Whether to kick the Nag "softly" (disable it in future, but not hide it straight away).
 			 * @return {Nag}
 			 */
-			THIS.kickWhen	=	function(args){
+			var setKick	=	function(args, softly){
 				var type, elements;
 				for(type in args){
 
@@ -221,13 +225,42 @@
 						function(o){
 							o[ ADD_LISTENER ](type, function(){
 
-								/*~*/if(opts.verbose) console.info("Kicking...");/*~*/
-								THIS.kick();
+								/*~*/if(opts.verbose) console.info((softly? "Softly " : "") + "Kicking...");/*~*/
+								THIS.kick(softly);
 							})
 						}
 					);
 				}
 				return THIS;
+			};
+
+
+
+			/**
+			 * Assigns a number of event listeners to the target element's contents, which dismiss the Nag from showing again when invoked.
+			 *
+			 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
+			 * @example .kickWhen( {"click": "#close-btn"} )
+			 * @return {Nag}
+			 */
+			THIS.kickWhen	=	function(args){
+				return setKick(args);
+			};
+
+
+
+			/**
+			 * Assigns event listeners to disable the Nag without hiding it immediately.
+			 *
+			 * This method might be used after a successful form submission, such as showing a thanks
+			 * message to a user after they've finished subscribing to a newsletter.
+			 *
+			 * @param {Object} args - Hashed element selectors, keyed to event type. See {@link kickWhen}.
+			 * @example .softlyKickWhen( {"form": "submit"} )
+			 * @return {Nag}
+			 */
+			THIS.softlyKickWhen = function(args){
+				return setKick(args, TRUE);
 			};
 		};
 
