@@ -116,6 +116,70 @@
 				},
 
 
+
+				/**
+				 * Internal function that assigns event listeners to disable the Nag in response to user activity.
+				 *
+				 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
+				 * @param {Boolean} softly - Whether to kick the Nag "softly" (disable it in future, but not hide it straight away).
+				 * @return {Nag}
+				 */
+				setKick	=	function(args, softly){
+					var type, elements;
+					for(type in args){
+
+						/** Stringify value in case an array was passed: this implicitly joins multiple selectors with commas */
+						elements	= args[type] + "";
+
+						forEach.call(
+							el[QUERY_ALL](elements),
+							function(o){
+								o[ ADD_LISTENER ](type, function(){
+
+									/*~*/if(opts.verbose) console.info((softly? "Softly " : "") + "Kicking...");/*~*/
+									THIS.kick(softly);
+								})
+							}
+						);
+					}
+					return THIS;
+				},
+
+
+
+				/** Initialiser method called when resetting or creating a new Nag */
+				init	=	function(){
+
+					/** Haven't dismissed this nag yet, so let's irritate the user. */
+					if(!+cookie(cookieName)){
+
+						/** Show nag on a DOM event */
+						if(eventName){
+
+							/** Add listener after a brief delay to prevent the page's initial scroll-point from erroneously triggering an onScroll event on page-load. */
+							setTimeout(function(){
+								eventTarget[ ADD_LISTENER ](eventName, triggerShow);
+							}, 100);
+						}
+
+
+						/** Show nag automatically after X number of milliseconds. */
+						if(showAfter)
+							timeoutID	=	setTimeout(triggerShow, showAfter);
+
+
+						/*~*/
+						if(opts.verbose){
+							if(eventName && timeoutID)	console.info("Set to nag after " + (showAfter / 1000) + " seconds, or on the \""+eventName+"\" event, whichever happens first.");
+							else if(eventName)			console.info("Registering callback for \"" + eventName + "\" event.");
+							else if(showAfter)			console.info("Showing nag after " + (showAfter / 1000) + " seconds.");
+							else						console.error("No event or timer delay specified! Wrong arguments?");
+						}
+						/*~*/
+					}
+				},
+
+
 				/** Internal */
 				show		=	FALSE,
 				silenced;
@@ -126,15 +190,15 @@
 			Object.defineProperties(THIS, {
 
 				/** Read-only flag indicating whether this Nag's been dismissed before. */
-				silenced:	{
+				silenced: {
 					get: function(){ return silenced; }
 				},
 
 
 				/** Whether the Nag's currently visible to the user. */
-				show:	{
-					get:	function(){ return show },
-					set:	function(i){
+				show: {
+					get: function(){ return show },
+					set: function(i){
 						i	=	!!i;
 						if(i !== show){
 							show	=	i;
@@ -145,36 +209,6 @@
 				}
 			});
 
-
-
-
-			/** Haven't dismissed this nag yet, so let's irritate the user. */
-			if(!+cookie(cookieName)){
-
-				/** Show nag on a DOM event */
-				if(eventName){
-
-					/** Add listener after a brief delay to prevent the page's initial scroll-point from erroneously triggering an onScroll event on page-load. */
-					setTimeout(function(){
-						eventTarget[ ADD_LISTENER ](eventName, triggerShow);
-					}, 100);
-				}
-
-
-				/** Show nag automatically after X number of milliseconds. */
-				if(showAfter)
-					timeoutID	=	setTimeout(triggerShow, showAfter);
-
-
-				/*~*/
-				if(opts.verbose){
-					if(eventName && timeoutID)	console.info("Set to nag after " + (showAfter / 1000) + " seconds, or on the \""+eventName+"\" event, whichever happens first.");
-					else if(eventName)			console.info("Registering callback for \"" + eventName + "\" event.");
-					else if(showAfter)			console.info("Showing nag after " + (showAfter / 1000) + " seconds.");
-					else						console.error("No event or timer delay specified! Wrong arguments?");
-				}
-				/*~*/
-			}
 
 
 
@@ -197,40 +231,12 @@
 			/**
 			 * Resets the Nag's cookie, ready to irritate the user once more.
 			 *
+			 * @param {Boolean} show - If TRUE, will display the Nag to the user as well.
 			 * @return {Nag}
 			 */
-			THIS.reset	=	function(){
-				cookie(cookieName, NULL);
-				return THIS;
-			};
-
-
-
-			/**
-			 * Internal function that assigns event listeners to disable the Nag in response to user activity.
-			 *
-			 * @param {Object} args - Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
-			 * @param {Boolean} softly - Whether to kick the Nag "softly" (disable it in future, but not hide it straight away).
-			 * @return {Nag}
-			 */
-			var setKick	=	function(args, softly){
-				var type, elements;
-				for(type in args){
-
-					/** Stringify value in case an array was passed: this implicitly joins multiple selectors with commas */
-					elements	= args[type] + "";
-
-					forEach.call(
-						el[QUERY_ALL](elements),
-						function(o){
-							o[ ADD_LISTENER ](type, function(){
-
-								/*~*/if(opts.verbose) console.info((softly? "Softly " : "") + "Kicking...");/*~*/
-								THIS.kick(softly);
-							})
-						}
-					);
-				}
+			THIS.reset	=	function(show){
+				cookie(cookieName, NULL, cookieParams);
+				show && init();
 				return THIS;
 			};
 
@@ -262,6 +268,10 @@
 			THIS.softlyKickWhen = function(args){
 				return setKick(args, TRUE);
 			};
+
+
+			/** Start naggin'. */
+			init();
 		};
 
 	
