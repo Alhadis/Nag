@@ -58,19 +58,19 @@ var nag	=	new Nag(element, {
 ## Option Reference
 
 ### cookieDomain
-**Type:** String<br/>
+**Type:** String  
 **Default:** `undefined`
 
 Cookie's "domain" attribute. Defaults to the current host, as per [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.2.3).
 
 ### cookieExpires
-**Type:** Date | Number<br/>
+**Type:** Date | Number  
 **Default:** `7`
 
 Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 7.
 
 ### cookieName
-**Type:** String<br/>
+**Type:** String  
 **Default:** `"nag-dismissed"` (See below)
 
 Name of the cookie that indicates if the user's closed this nag before.
@@ -80,31 +80,31 @@ If omitted, the element's ID will be used, prepended with `"shown‑"`. If the e
 Note that Nag instances should *always* be supplied a unique, explicit cookie name for predictable behaviour.
 
 ### cookiePath
-**Type:** String<br/>
+**Type:** String  
 **Default:** `"/"` (Site root)
 
 Cookie's "path" attribute, as per [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.2.4).
 
 ### cookieSecure
-**Type:** Boolean<br/>
+**Type:** Boolean  
 **Default:** `undefined`
 
 Cookie's "secure" attribute, as per [RFC 6265](http://tools.ietf.org/html/rfc6265#section-4.1.2.5).
 
 ### eventName
-**Type:** String<br/>
+**Type:** String  
 **Default:** `"scroll"`
 
 DOM event that triggers the nag.
 
 ### eventTarget
-**Type:** [EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget) <br/>
+**Type:** [EventTarget](https://developer.mozilla.org/en-US/docs/Web/API/EventTarget)  
 **Default:** `window`
 
 DOM object listening for the nag-triggering event.
 
 ### kickWhen
-**Type:** Object<br/>
+**Type:** Object  
 **Default:** `undefined`
 
 Configures which events will hide the Nag and prevent it showing again, expressed as a hash of element selectors keyed by event type. For example:
@@ -129,7 +129,7 @@ closeBtn.addEventListener("click", function(e){
 A [convenience method](#setkick) is also available for setting these handlers on a Nag after instantiation.
 
 ### kickSoftlyWhen
-**Type:** Object<br/>
+**Type:** Object  
 **Default:** `undefined`
 
 Analoguous to `kickWhen`, with the exception that the triggered events don't hide the Nag immediately after they fire.
@@ -144,34 +144,34 @@ kickSoftlyWhen: {
 ```
 
 ### onHide
-**Type:** Function<br/>
+**Type:** Function  
 **Default:** `function(){}` (No-op)
 
 Run when Nag's dismissed.
 
 ### onShow
-**Type:** Function<br/>
+**Type:** Function  
 **Default:** `function(){}` (No-op)
 
 Run when Nag's displayed.
 
 ### showAfter
-**Type:** Number<br/>
+**Type:** Number  
 **Default:** `4000`
 
 Milliseconds to wait before nagging user automatically. Defaults to `4000` if undefined; any other falsy values will disable this behaviour.
 
 ### showClass
-**Type:** String<br/>
+**Type:** String  
 **Default:** `"show"`
 
 CSS class for displaying the target element. It's assumed that the element is hidden by default, and will be rendered visible to the user if this class is added to it.
 
 ### verbose
-**Type:** Boolean<br/>
+**Type:** Boolean  
 **Default:** `undefined`
 
-**(Unminified code only)**<br/>
+**(Unminified code only)**  
 Sends debugging messages to the console during the Nag's lifespan.
 
 
@@ -186,7 +186,7 @@ Dismisses a Nag whilst setting a cookie not to show it again.
 
 Typically called from a close button, but may also be called from a form's submission handler.
 
-##### Parameters:
+##### Parameters
 *  **soft (Boolean)**  
    If set, will prevent the Nag from showing again, but won't hide it immediately.
 
@@ -197,7 +197,7 @@ Aliased form of [setKick](#setkick) (see below).
 ### reset
 Resets the Nag's cookie, ready to irritate the user once more.
 
-**Parameters:**
+##### Parameters
 *	**show (Boolean)**  
 	If TRUE, will display the Nag to the user as well.
 
@@ -205,14 +205,14 @@ Resets the Nag's cookie, ready to irritate the user once more.
 ### setKick
 Assigns event listeners to disable the Nag in response to user activity.
 
-**Parameters:**
+##### Parameters
 *	**args (Object)**  
 	Object whose keys represent types of events, and whose values are CSS selectors matching the elements listening for them.
 
 *	**softly (Boolean)**  
 	Whether to kick the Nag "softly" (disable it in future, but not hide it straight away).
 
-**Example:**
+##### Example
 ```js
 nag.setKick({click: "#close-btn"});
 nag.setKick({submit: "form"}, true);
