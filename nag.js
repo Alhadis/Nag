@@ -17,6 +17,8 @@
 		REMOVE_LISTENER		=	"remove"+LISTENER,
 		QUERY				=	"querySelector",
 		QUERY_ALL			=	QUERY + "All",
+		STRING				=	"string",
+
 
 		/** Aliased functions */
 		forEach				=	Array.prototype.forEach,
@@ -49,11 +51,18 @@
 		 * @param {Number}      opts.showAfter     - Milliseconds to wait before nagging user automatically. Empty values disable this behaviour.
 		 * @param {String}      opts.showClass     - CSS class that displays the target element.
 		 * @param {Boolean}     opts.verbose       - (Unminified code only) Logs debugging messages to console.
+		 * @param {Boolean}     lazy               - If TRUE, automatically configures kick handlers on obvious-looking elements.
 		 * @constructor
 		 */
-		Nag	=	function(el, opts){
+		Nag	=	function(el, opts, lazy){
 
 			var	THIS			=	this,
+			
+				/** Arbitrate parameters to allow strings to be passed in for lazy initialisation */
+				lazy			=	arguments.length === 1	? TRUE : lazy,
+				el				=	STRING === typeof el	? DOC[QUERY](el) : el,
+				opts			=	STRING === typeof opts	? {cookieName:opts} : (opts || {}),
+				
 
 
 				/**
@@ -238,6 +247,12 @@
 				}
 			});
 
+
+			/** Automatically add kick handlers if told to. */
+			if(lazy){
+				setKick({click: ".close, .cancel, .close-btn"});
+				setKick({submit: "form"}, true);
+			}
 
 
 

@@ -4,6 +4,9 @@ Nag
 Display automatic callouts to a user, unless they've been previously dismissed. Suitable for subscription popups, greetings, notifications of new features, etc.
 
 1. [Usage](#usage)
+	1. [element](#param-element)
+	2. [options](#param-options)
+	3. [lazy](#param-lazy)
 2. [Option Reference](#option-reference)
 	1. [cookieDomain](#cookiedomain)
 	2. [cookieExpires](#cookieexpires)
@@ -27,33 +30,73 @@ Display automatic callouts to a user, unless they've been previously dismissed. 
 
 
 ## Usage
-
-First argument is a reference to an HTML element:
 ```js
-var element	=	document.querySelector("#subscribe-now");
-var nag		=	new Nag(element);
+new Nag(element, options, lazy);
 ```
 
-Second argument is an optional hash of properties to fine-tune the Nag's behaviour:
-```js
-/** Possible options and their default values are depicted below: */
-var nag	=	new Nag(element, {
-	cookieDomain:	undefined,
-	cookieExpires:	7,
-	cookieName:		element.id ? "shown-"+element.id : "nag-dismissed",
-	cookiePath:		"/",
-	cookieSecure:	undefined,
-	eventName:		"scroll",
-	eventTarget:	window,
-	kickWhen:		undefined,
-	kickSoftlyWhen:	undefined,
-	onHide:			function(){},
-	onShow:			function(){},
-	showAfter:		4000,
-	showClass:		"show",
-	verbose:		undefined
-});
-```
+1.  <a name="param-element" title="Don't bother reading this documentation on BitBucket, because it can't parse Markdown for shit. Visit the GitHub mirror instead: https://github.com/Alhadis/Nag"></a>**element (HTMLElement | String)**  
+	First argument is a reference to an HTML element, or a selector string matching one:
+	```js
+	var element	=	document.querySelector("#subscribe-now");
+	var nag		=	new Nag(element);
+
+	/** Which is equivalent to: */
+	var nag		=	new Nag("#subscribe-now");
+	```
+
+2.	<a name="param-options"></a>**options (Object)**  
+	Second argument is an optional hash of properties to fine-tune the Nag's behaviour:
+	```js
+	/** Possible options and their default values are depicted below: */
+	var nag	=	new Nag(element, {
+		cookieDomain:	undefined,
+		cookieExpires:	7,
+		cookieName:		element.id ? "shown-"+element.id : "nag-dismissed",
+		cookiePath:		"/",
+		cookieSecure:	undefined,
+		eventName:		"scroll",
+		eventTarget:	window,
+		kickWhen:		undefined,
+		kickSoftlyWhen:	undefined,
+		onHide:			function(){},
+		onShow:			function(){},
+		showAfter:		4000,
+		showClass:		"show",
+		verbose:		undefined
+	});
+	```
+
+	If a string is passed instead of a hash, it's interpreted as the name of the Nag's controller cookie. For example, both of the following declarations are identical:
+	```js
+	var nag	=	new Nag(element, {cookieName: "seen-popup"});
+	var nag =	new Nag(element, "seen-popup");
+	```
+
+
+3.	<a name="param-lazy"></a>**lazy**  
+	A third argument permits absurdly lazy use by automatically calling [setKick](#setkick) on anything that looks like it should close the containing popup:
+	```js
+	var nag	=	new Nag(element, "seen-popup", true);
+
+	/** Does the same as this: */
+	var nag	=	new Nag(element, "seen-popup")
+					.setKick({click: ".close, .cancel, .close-btn"})
+					.setKick({submit: "form"}, true);
+	```
+
+	**NOTE:** This flag is automatically turned on if the only thing passed to the Nag constructor was an element:
+	```js
+	var nag	=	new Nag("#annoying-popup");
+	var nag	=	new Nag(document.getElementById("#annoying-popup"));
+
+	/** Which're both equivalent to: */
+	var nag	=	new Nag("#annoying-popup", null, true);
+	```
+	This is deliberate: if a developer can't be stuffed specifying even the cookie's name, it's assumed they're trying to get things off the ground as quickly as possible. If this bothers you (and you really, really feel the need to pass zero configuration) this behaviour can be suppressed simply by passing `null` as the second argument:
+	```js
+	var nag	=	new Nag("#annoying-popup", null);
+	```
+
 
 ## Option Reference
 

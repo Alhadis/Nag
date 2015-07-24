@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1, minimum-scale=1" />
+<title>Nag Demo &bull; Lazy Initialisation</title>
+
+<style type="text/css">
+/** Reset */
+html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{display:block}audio,canvas,progress,video{display:inline-block;vertical-align:baseline}audio:not([controls]){display:none;height:0}[hidden],template{display:none!important}a{background-color:transparent}a:active,a:hover{outline:0}abbr[title]{border-bottom:0}b,strong{font-weight:700}dfn{font-style:italic}h1{font-size:2em;margin:.67em 0}mark{background:#ff0;color:#000}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:1em 2.5em}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}pre{overflow:auto}code,kbd,pre,samp{font-family:monospace,monospace;font-size:1em}button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}input{line-height:normal}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-outer-spin-button{height:auto}input[type="search"]{-webkit-appearance:textfield}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}textarea{overflow:auto}optgroup{font-weight:700}table{border-collapse:collapse;border-spacing:0}td,th{padding:0}
+
+*{
+	tab-size: 4;
+	-webkit-box-sizing:	border;
+	-webkit-box-sizing:	border-box;
+	-moz-box-sizing:	border;
+	-moz-box-sizing:	border-box;
+	box-sizing:			border-box;
+}
+	:focus{outline: none}
+
+h1{
+	text-align: center;
+}
+body > script:last-of-type{
+	display: block;
+	white-space: pre;
+	font: 10pt monospace;
+	max-width: 35em;
+	min-height: 20em;
+	margin: 0 auto;
+	border: 1px solid #dee;
+	overflow-y: auto;
+	word-break: break-word;
+	padding: 1em;
+}
+
+
+#more-annoying-shit{
+	position: fixed;
+	display: block;
+	bottom:	0;
+	right:	0;
+	padding: 1em;
+	box-shadow: 0 0 1em -.35em #000;
+	background: #fff;
+	width: 100%;
+	max-width: 25em;
+	
+	transition: .3s ease all;
+	transform: translateX(120%);
+	opacity: 0;
+}
+	.show#more-annoying-shit{
+		opacity: 1;
+		transform: translateX(0);
+	}
+	#more-annoying-shit > h2{
+		margin: 0 0 .5em;
+		text-align: center;
+	}
+	#more-annoying-shit > img{
+		max-width: 100%;
+		display: inline-block;
+		cursor: pointer;
+	}
+
+	.close{
+		text-align: center;
+		font: bold 1.25em sans-serif;
+	}
+</style>
+</head>
+
+
+<body>
+	<h1>Lazy Initialisation</h1>
+
+	<aside id="more-annoying-shit">
+		<h2>AY BRUH SUSS MY SOUNDCLOUD</h2>
+		<img src="lazy-image.png" alt="Something that sounds familiar" />
+		<div class="close">PISS OFF</div>
+	</aside>
+
+
+	<script src="../nag.js"></script>
+	<script>
+		var nag = new Nag("#more-annoying-shit");
+	</script>
+
+</body>
+</html>
