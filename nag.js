@@ -40,7 +40,7 @@
 		 * @param {HTMLElement} el                 - Container element for the content to reveal.
 		 * @param {Object}      opts               - Hash of options to fine-tune Nag's behaviour.
 		 * @param {String}      opts.cookieDomain  - Cookie's domain.
-		 * @param {Date|Number} opts.cookieExpires - Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 7.
+		 * @param {Date|Number} opts.cookieExpires - Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 365.
 		 * @param {String}      opts.cookieName    - Name of cookie that controls if the user's closed this nag before.
 		 * @param {String}      opts.cookiePath    - Cookie's path. Defaults to site's root: "/"
 		 * @param {Boolean}     opts.cookieSecure  - Whether to restrict the cookie to HTTPS.
@@ -78,7 +78,7 @@
 				/** Config hash to pass to the cookie function, built from "cookie*" properties of opts */
 				cookieParams	=	{
 					domain:		opts.cookieDomain,
-					expires:	opts.cookieExpires	|| 7,
+					expires:	opts.cookieExpires	|| 365,
 					path:		opts.cookiePath		|| "/",
 					secure:		opts.cookieSecure
 				},
