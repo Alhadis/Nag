@@ -3,7 +3,21 @@ Nag
 
 Display automatic callouts to a user, unless they've been previously dismissed. Suitable for subscription popups, greetings, notifications of new features, etc.
 
-1. [Usage](#usage)
+```js
+new Nag(element, options, lazy);
+
+
+new Nag(document.getElementById("popup"), {cookieName: "shown-popup"});
+
+new Nag("#pop-up", {
+	showAfter: 2000,
+	cookieName: "seen-popup"
+	cookieExpires: 14 /** 2 weeks */
+});
+```
+
+### Table of contents
+1. [Parameters](#parameters)
 	1. [element](#param-element)
 	2. [options](#param-options)
 	3. [lazy](#param-lazy)
@@ -29,10 +43,7 @@ Display automatic callouts to a user, unless they've been previously dismissed. 
 	4. [setKick](#setkick)
 
 
-## Usage
-```js
-new Nag(element, options, lazy);
-```
+## Parameters
 
 1.  <a name="param-element" title="Don't bother reading this documentation on BitBucket, because it can't parse Markdown for shit. Visit the GitHub mirror instead: https://github.com/Alhadis/Nag"></a>**element (HTMLElement | String)**  
 	First argument is a reference to an HTML element, or a selector string matching one:
