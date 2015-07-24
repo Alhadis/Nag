@@ -61,7 +61,7 @@ new Nag("#pop-up", {
 	/** Possible options and their default values are depicted below: */
 	var nag	=	new Nag(element, {
 		cookieDomain:	undefined,
-		cookieExpires:	7,
+		cookieExpires:	365,
 		cookieName:		element.id ? "shown-"+element.id : "nag-dismissed",
 		cookiePath:		"/",
 		cookieSecure:	undefined,
@@ -119,9 +119,9 @@ Cookie's "domain" attribute. Defaults to the current host, as per [RFC 6265](htt
 
 ### cookieExpires
 **Type:** Date | Number  
-**Default:** `7`
+**Default:** `365`
 
-Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 7.
+Cookie's expiration as a Date, or the number of days to store it in memory. Defaults to 365.
 
 ### cookieName
 **Type:** String  
