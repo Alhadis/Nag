@@ -3,7 +3,7 @@
 	"repository":   "Alhadis/Nag",
 	"description":  "Display automatic callouts to a user, unless they've been previously dismissed. Suitable for subscription popups, greetings, notifications of new features, etc.",
 	"keywords":     ["nag", "dialogue", "dialog", "popup", "pop-up", "flyout", "callout", "subscription", "subscribe"],
-	"license":      "MIT"
+	"license":      "MIT",
 	"version":      "0.0.1",
 	"main":         "nag.js",
 	"scripts":      ["nag.js"]
