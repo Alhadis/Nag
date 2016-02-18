@@ -1,0 +1,12 @@
+{
+	"name": "nag-window",
+	"version": "v1.0.0",
+	"description": "Display automatic callouts to a user, unless they've been previously dismissed. Suitable for subscription popups, greetings, notifications of new features, etc.",
+	"keywords": ["nag", "dialogue", "dialog", "popup", "pop-up", "flyout", "callout", "subscription", "subscribe"],
+	"repository": "https://github.com/Alhadis/Nag",
+	"author":  "Alhadis <gardnerjohng@gmail.com>",
+	"directories": {"example": "demos"},
+	"license": "ISC",
+	"dependencies": {},
+	"main": "nag.js"
+}
