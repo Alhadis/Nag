@@ -1,0 +1,14 @@
+{
+	"name": "nag",
+	"description": "Display automatic callouts to a user, unless they've been previously dismissed. Suitable for subscription popups, notifications, etc.",
+	"keywords": ["nag", "dialogue", "dialog", "popup", "pop-up", "flyout", "callout", "subscription", "subscribe"],
+	"moduleType": "globals",
+	"license": "ISC",
+	"main":    "nag.js",
+	"ignore":  ["demos"],
+	"authors": ["Alhadis <gardnerjohng@gmail.com>"],
+	"repository": {
+		"url": "git@github.com:Alhadis/Nag.git",
+		"type": "git"
+	}
+}
