@@ -11,11 +11,11 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 
 *{
 	tab-size: 4;
-	-webkit-box-sizing:	border;
-	-webkit-box-sizing:	border-box;
-	-moz-box-sizing:	border;
-	-moz-box-sizing:	border-box;
-	box-sizing:			border-box;
+	-webkit-box-sizing: border;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing:    border;
+	-moz-box-sizing:    border-box;
+	box-sizing:         border-box;
 }
 	:focus{outline: none}
 
@@ -27,34 +27,34 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 	background: #000;
 	color: #fff;
 	padding: 1em;
-
-
+	
+	
 	/** Rudimentary styling */
 	position: fixed;
-	bottom:	0;
-	right:	0;
-
-	-webkit-transition:	.3s ease all;
-	-moz-transition:	.3s ease all;
-	-o-transition:		.3s ease all;
-	transition:			.3s ease all;
-
-	-webkit-backface-visibility:	hidden;
-	-moz-backface-visibility:		hidden;
-	backface-visibility:			hidden;
-
-	-webkit-transform:	translateX(100%);
-	-moz-transform:		translateX(100%);
-	-ms-transform:		translateX(100%);
-	-o-transform:		translateX(100%);
-	transform:			translateX(100%);
+	bottom: 0;
+	right:  0;
+	
+	-webkit-transition: .3s ease all;
+	-moz-transition:    .3s ease all;
+	-o-transition:      .3s ease all;
+	transition:         .3s ease all;
+	
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	backface-visibility:         hidden;
+	
+	-webkit-transform: translateX(100%);
+	-moz-transform:    translateX(100%);
+	-ms-transform:     translateX(100%);
+	-o-transform:      translateX(100%);
+	transform:         translateX(100%);
 }
 	.show.nag{
-		-webkit-transform:	translateX(0);
-		-moz-transform:		translateX(0);
-		-ms-transform:		translateX(0);
-		-o-transform:		translateX(0);
-		transform:			translateX(0);
+		-webkit-transform: translateX(0);
+		-moz-transform:    translateX(0);
+		-ms-transform:     translateX(0);
+		-o-transform:      translateX(0);
+		transform:         translateX(0);
 	}
 
 	.nag input{
@@ -71,10 +71,10 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 	font-weight: bold;
 	text-transform: uppercase;
 	cursor: pointer;
-	-webkit-transition:	.15s ease all;
-	-moz-transition:	.15s ease all;
-	-o-transition:		.15s ease all;
-	transition:			.15s ease all;
+	-webkit-transition: .15s ease all;
+	-moz-transition:    .15s ease all;
+	-o-transition:      .15s ease all;
+	transition:         .15s ease all;
 }
 	#close-btn,
 	#close-btn::before{
@@ -115,13 +115,12 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 	<script type="text/javascript">
 		
 		/** Demo usage */
-		var	nag	=	document.getElementById("nag-1"),
-			nag	=	new Nag(nag, {
-				verbose:		1,
-				kickWhen:		{click: "#close-btn"},
-				kickSoftlyWhen: {submit: "form"}
-			});
-			
+		var nag = new Nag(document.getElementById("nag-1"), {
+			verbose:        1,
+			kickWhen:       {click: "#close-btn"},
+			kickSoftlyWhen: {submit: "form"}
+		});
+		
 		document.forms[0].addEventListener("submit", function(e){
 			e.preventDefault();
 			return false;
